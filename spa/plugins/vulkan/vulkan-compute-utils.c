@@ -410,7 +410,6 @@ int spa_vulkan_init_stream(struct vulkan_compute_state *s, struct vulkan_stream 
 int spa_vulkan_prepare(struct vulkan_compute_state *s)
 {
 	if (!s->prepared) {
-		CHECK(spa_vulkan_init(s));
 		CHECK(createFence(s));
 		CHECK(createDescriptors(s));
 		CHECK(createComputePipeline(s, s->shaderName));
@@ -431,7 +430,6 @@ int spa_vulkan_unprepare(struct vulkan_compute_state *s)
 		vkDestroyPipeline(s->base.device, s->pipeline, NULL);
 		vkDestroyCommandPool(s->base.device, s->commandPool, NULL);
 		vkDestroyFence(s->base.device, s->fence, NULL);
-		spa_vulkan_deinit(s);
 		s->prepared = false;
 	}
 	return 0;
