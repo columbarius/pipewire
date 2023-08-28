@@ -153,6 +153,11 @@ static int updateDescriptors(struct vulkan_compute_state *s)
 		};
 		descriptorSetLen++;
 	}
+	// Abort process if any buffer is not valid
+	if (s->streams[0].current_buffer_id == SPA_ID_INVALID
+			|| (s->n_streams == 2 && s->streams[1].current_buffer_id == SPA_ID_INVALID))
+		return -1;
+
 	vkUpdateDescriptorSets(s->base.device, descriptorSetLen,
 				writeDescriptorSet, 0, NULL);
 
